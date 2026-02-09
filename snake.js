@@ -1,6 +1,24 @@
 const SIZE = 50;
 let W, H;
 
+let snake = [];
+
+let snakeImg;
+function preload()
+{
+    snakeImg = loadImage("./img/thomas.jpg", resizeImg);
+}
+
+function resizeImg(img)
+{
+    img.resize(SIZE, SIZE);
+}
+
+function initSnake()
+{
+    snake = [{x:floor(random(0, W)), y:floor(random(0, H))}];
+}
+
 function setup()
 {
     W = floor(windowWidth / SIZE);
@@ -9,6 +27,8 @@ function setup()
     H--;
     let can = createCanvas(W * SIZE, H * SIZE);
     can.parent("canvas");
+
+    initSnake();
 }
 
 function draw()
@@ -23,5 +43,10 @@ function draw()
         {
             rect(i * SIZE, j * SIZE, SIZE, SIZE);
         }
+    }
+
+    for(let i in snake)
+    {
+        image(snakeImg, snake[i].x * SIZE, snake[i].y * SIZE);
     }
 }
