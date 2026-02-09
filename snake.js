@@ -1,6 +1,7 @@
 const SIZE = 67;
 const MARS = 5;
 const STSPEED = 200;
+const SPEEDMUL = 0.95;
 let W, H;
 let speed;
 
@@ -11,6 +12,8 @@ let gameOver;
 let timer;
 
 let snakeImg, marsImg;
+let scoreElem;
+let score;
 
 function contains(arr, elem)
 {
@@ -45,11 +48,18 @@ function initSnake()
     snake = [{x:floor(random(0, W)), y:floor(random(0, H))}];
     dir = {x:0, y:0};
     gameOver = false;
+    score = 0;
     marsy = [];
     for(let i = 0; i < MARS; i++) addMars();
     speed = STSPEED;
     timer = millis();
+    updateScore();
     closeRick();
+}
+
+function updateScore()
+{
+    scoreElem.textContent = "Score: " + score;
 }
 
 function setup()
@@ -61,11 +71,12 @@ function setup()
     let can = createCanvas(W * SIZE, H * SIZE);
     can.parent("canvas");
 
+    scoreElem = document.getElementById("score");
     initSnake();
 }
 
 function keyPressed()
-{   
+{
     if(gameOver)
     {
         if(key === 'r') initSnake();
@@ -123,6 +134,9 @@ function moveSnake()
     if(contains(marsy, {x:nx, y:ny}))
     {
         marsy.splice(marsy.findIndex(p => p.x == nx && p.y == ny), 1);
+        score++;
+        speed *= SPEEDMUL;
+        updateScore();
     }
     else snake.pop();
     snake.unshift({x:nx, y:ny});
@@ -131,7 +145,7 @@ function moveSnake()
 
 function draw()
 {
-    if(millis() - timer >= speed)
+    if(millis() - timer >= speed && !gameOver)
     {
         moveSnake();
         timer = millis();
