@@ -49,6 +49,7 @@ function initSnake()
     for(let i = 0; i < MARS; i++) addMars();
     speed = STSPEED;
     timer = millis();
+    closeRick();
 }
 
 function setup()
@@ -94,6 +95,7 @@ function keyPressed()
 
 function loser()
 {
+    playRick();
     gameOver = true;
 }
 
