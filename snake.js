@@ -180,7 +180,6 @@ function draw()
         if(i === 0)
         {
             image(snakeHeadImg, snake[i].x * SIZE, snake[i].y * SIZE);
-            console.log("test");
         }
         else image(snakeImg, snake[i].x * SIZE, snake[i].y * SIZE);
     }
