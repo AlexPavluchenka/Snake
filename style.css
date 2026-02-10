@@ -14,7 +14,7 @@ canvas {
     align-items: center;
 }
 
-#textt, #score {
+#textt, #score, #highscore {
     font-size: 50px;
     margin: 0px;
     padding: 0px;

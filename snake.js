@@ -11,9 +11,10 @@ let dir;
 let gameOver;
 let timer;
 
-let snakeImg, marsImg;
-let scoreElem;
+let snakeImg, marsImg, snakeHeadImg;
+let scoreElem, highScoreElem;
 let score;
+let highScore;
 
 function contains(arr, elem)
 {
@@ -23,6 +24,7 @@ function contains(arr, elem)
 function preload()
 {
     snakeImg = loadImage("./img/thomas.jpg", resizeImg);
+    snakeHeadImg = loadImage("./img/thomas1.jpg", resizeImg);
     marsImg = loadImage("./img/mars.png", resizeImg);
 }
 
@@ -60,6 +62,12 @@ function initSnake()
 function updateScore()
 {
     scoreElem.textContent = "Score: " + score;
+    if(score > highScore)
+    {
+        highScore = score;
+        window.localStorage.highScore = highScore;
+        highScoreElem.textContent = "HI: " + highScore;
+    }
 }
 
 function setup()
@@ -72,6 +80,10 @@ function setup()
     can.parent("canvas");
 
     scoreElem = document.getElementById("score");
+    highScoreElem = document.getElementById("highscore");
+    if(window.localStorage.highScore) highScore = window.localStorage.highScore;
+    else highScore = 0;
+    highScoreElem.textContent = "HI: " + highScore;
     initSnake();
 }
 
@@ -163,14 +175,19 @@ function draw()
         }
     }
 
-    for(let i in snake)
+    for(let i = 0; i < snake.length; i++)
     {
-        image(snakeImg, snake[i].x * SIZE, snake[i].y * SIZE);
+        if(i === 0)
+        {
+            image(snakeHeadImg, snake[i].x * SIZE, snake[i].y * SIZE);
+            console.log("test");
+        }
+        else image(snakeImg, snake[i].x * SIZE, snake[i].y * SIZE);
     }
 
     fill(255);
     noStroke();
-    for(let i in marsy)
+    for(let i = 0; i < marsy.length; i++)
     {
         image(marsImg, marsy[i].x * SIZE, marsy[i].y * SIZE);
     }
